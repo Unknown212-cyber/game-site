@@ -1,0 +1,48 @@
+body {
+  font-family: monospace, Arial, Helvetica, sans-serif;
+  color: white;
+  background-color: rgb(36, 35, 35);
+  text-align: center;
+}
+
+.site-title {
+  font-size: 5rem;
+}
+
+.game-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px; /* Add some margin around the game section */
+}
+
+.game {
+  margin: 10px; /* Spacing between cards */
+  background-color: #444; /* Background color for cards */
+  border-radius: 10px;
+  padding: 20px; /* Space inside the cards */
+  width: 250px; /* Fixed width for each card */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add some shadow */
+}
+
+img {
+  width: 100%; /* Make images responsive */
+  border-radius: 10px; /* Rounded corners for images */
+  margin-bottom: 10px; /* Spacing below the image */
+}
+
+button {
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 1.5rem;
+  padding: 10px 20px; /* Padding inside the button */
+  background-color: #28a745; /* Button color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
