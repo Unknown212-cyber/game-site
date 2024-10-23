@@ -20,7 +20,7 @@ const ball = {
     velocityX: 5,
     velocityY: 5,
     speed: 7,
-    color: 'WHITE'
+    color: 'ORANGE'
 }
 
 // User paddle object
@@ -30,7 +30,7 @@ const user = {
     width: 10,
     height: 100,
     score: 0,
-    color: 'WHITE'
+    color: 'BLUE'
 }
 
 // Computer paddle object
@@ -40,7 +40,7 @@ const com = {
     width: 10,
     height: 100,
     score: 0,
-    color: 'WHITE'
+    color: 'RED'
 }
 
 // Net object
