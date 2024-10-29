@@ -16,7 +16,7 @@ class Ship {
         this.y = canvas.height / 2;
         this.angle = 0;
         this.speed = 0;
-        this.size = 20; // Triangle ship size
+        this.size = 40; // Triangle ship size
         this.maxSpeed = 5;
         this.friction = 0.98;
     }
