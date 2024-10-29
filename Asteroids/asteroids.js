@@ -232,7 +232,11 @@ function updateScore() {
 document.addEventListener("keydown", (event) => {
     keyState[event.code] = true;
     if (event.code === "Space") {
-        bullets.push(new Bullet(ship.x, ship.y, ship.angle)); // Shoot bullet
+        // Calculate the tip of the ship based on angle and size
+        const bulletX = ship.x + Math.cos(ship.angle) * ship.height / 2;
+        const bulletY = ship.y + Math.sin(ship.angle) * ship.height / 2;
+        
+        bullets.push(new Bullet(bulletX, bulletY, ship.angle)); // Shoot bullet from the tip
     }
 });
 
