@@ -17,22 +17,32 @@ class Ship {
         this.angle = 0;
         this.speed = 0;
         this.width = 30;
-        this.height = 30;
+        this.height = 40; // Adjusted for ship shape
         this.maxSpeed = 5;
-        this.friction = 0.98; // Friction to slow down the ship
+        this.friction = 0.98;
     }
 
     draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
+        
+        // Draw the main body of the spaceship
         ctx.fillStyle = "white";
         ctx.beginPath();
-        ctx.moveTo(0, -this.height / 2);
-        ctx.lineTo(-this.width / 2, this.height / 2);
-        ctx.lineTo(this.width / 2, this.height / 2);
+        ctx.moveTo(0, -this.height / 2); // Nose of the ship
+        ctx.lineTo(-this.width / 2, this.height / 2); // Left wing
+        ctx.lineTo(0, this.height / 4); // Bottom center
+        ctx.lineTo(this.width / 2, this.height / 2); // Right wing
         ctx.closePath();
         ctx.fill();
+
+        // Draw cockpit
+        ctx.fillStyle = "cyan";
+        ctx.beginPath();
+        ctx.arc(0, -this.height / 3, 5, 0, Math.PI * 2); // Circular cockpit
+        ctx.fill();
+
         ctx.restore();
     }
 
@@ -79,7 +89,7 @@ class Bullet {
         this.angle = angle;
         this.speed = 8;
         this.radius = 3;
-        this.lifeTime = 100; // Bullet lifetime
+        this.lifeTime = 100;
         this.age = 0;
     }
 
@@ -105,16 +115,30 @@ class Asteroid {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 30 + 20; // Size between 20 and 50
-        this.speedX = Math.random() * 3 - 1.5; // Random speed in X direction
-        this.speedY = Math.random() * 3 - 1.5; // Random speed in Y direction
+        this.size = Math.random() * 30 + 20;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+        this.vertices = Math.floor(Math.random() * 5 + 5);
+        this.offsets = Array.from({ length: this.vertices }, () => Math.random() * this.size * 0.4 - this.size * 0.2);
     }
 
     draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
         ctx.fillStyle = "gray";
+
+        // Draw asteroid with irregular vertices
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        for (let i = 0; i < this.vertices; i++) {
+            const angle = (Math.PI * 2 / this.vertices) * i;
+            const x = Math.cos(angle) * (this.size + this.offsets[i]);
+            const y = Math.sin(angle) * (this.size + this.offsets[i]);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
         ctx.fill();
+        ctx.restore();
     }
 
     update() {
@@ -180,7 +204,6 @@ function updateGame() {
                 bullets.splice(bulletIndex, 1); // Remove bullet
                 asteroids.splice(asteroidIndex, 1); // Remove asteroid
                 score += 10;
-                // Add a new asteroid when one is destroyed
                 asteroids.push(new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height));
             }
         });
@@ -207,14 +230,14 @@ function updateScore() {
 
 // Player controls
 document.addEventListener("keydown", (event) => {
-    keyState[event.code] = true; // Set key state
+    keyState[event.code] = true;
     if (event.code === "Space") {
         bullets.push(new Bullet(ship.x, ship.y, ship.angle)); // Shoot bullet
     }
 });
 
 document.addEventListener("keyup", (event) => {
-    keyState[event.code] = false; // Reset key state
+    keyState[event.code] = false;
 });
 
 // Reset game button
