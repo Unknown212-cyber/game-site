@@ -52,7 +52,7 @@ class Ship {
         // Apply friction
         this.speed *= this.friction;
 
-        // Update position based on cockpit direction
+        // Update position based on angle
         this.x += Math.cos(this.angle) * this.speed;
         this.y += Math.sin(this.angle) * this.speed;
 
@@ -65,7 +65,7 @@ class Ship {
 
     thrust() {
         this.speed += 0.1;
-        if (this.speed > this.maxSpeed) this.speed = this.maxSpeed; // Max speed
+        if (this.speed > this.maxSpeed) this.speed = this.maxSpeed;
     }
 
     rotate(direction) {
@@ -98,7 +98,7 @@ class Bullet {
         this.age++;
 
         // Remove bullet if it goes off-screen or exceeds lifetime
-        return (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height || this.age > this.lifeTime);
+        return this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height || this.age > this.lifeTime;
     }
 }
 
@@ -206,8 +206,8 @@ function updateGame() {
         const dx = ship.x - asteroid.x;
         const dy = ship.y - asteroid.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < ship.width / 2 + asteroid.size) {
-            gameOver = true; // End the game
+        if (distance < ship.size + asteroid.size) { // Check using ship size
+            gameOver = true;
         }
     });
 
@@ -224,11 +224,9 @@ function updateScore() {
 document.addEventListener("keydown", (event) => {
     keyState[event.code] = true;
     if (event.code === "Space") {
-        // Calculate the tip of the ship based on angle and size
-        const bulletX = ship.x + Math.cos(ship.angle) * ship.height / 2;
-        const bulletY = ship.y + Math.sin(ship.angle) * ship.height / 2;
-        
-        bullets.push(new Bullet(bulletX, bulletY, ship.angle)); // Shoot bullet from the tip
+        const bulletX = ship.x + Math.cos(ship.angle) * ship.size;
+        const bulletY = ship.y + Math.sin(ship.angle) * ship.size;
+        bullets.push(new Bullet(bulletX, bulletY, ship.angle));
     }
 });
 
