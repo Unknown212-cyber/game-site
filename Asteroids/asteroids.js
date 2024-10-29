@@ -16,8 +16,7 @@ class Ship {
         this.y = canvas.height / 2;
         this.angle = 0;
         this.speed = 0;
-        this.width = 30;
-        this.height = 40; // Adjusted for ship shape
+        this.size = 20; // Triangle ship size
         this.maxSpeed = 5;
         this.friction = 0.98;
     }
@@ -26,21 +25,14 @@ class Ship {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
-        
-        // Draw the main body of the spaceship
+
+        // Draw triangle ship
         ctx.fillStyle = "white";
         ctx.beginPath();
-        ctx.moveTo(0, -this.height / 2); // Nose of the ship
-        ctx.lineTo(-this.width / 2, this.height / 2); // Left wing
-        ctx.lineTo(0, this.height / 4); // Bottom center
-        ctx.lineTo(this.width / 2, this.height / 2); // Right wing
+        ctx.moveTo(0, -this.size); // Tip of the triangle
+        ctx.lineTo(-this.size / 2, this.size / 2); // Left base
+        ctx.lineTo(this.size / 2, this.size / 2); // Right base
         ctx.closePath();
-        ctx.fill();
-
-        // Draw cockpit
-        ctx.fillStyle = "cyan";
-        ctx.beginPath();
-        ctx.arc(0, -this.height / 3, 5, 0, Math.PI * 2); // Circular cockpit
         ctx.fill();
 
         ctx.restore();
