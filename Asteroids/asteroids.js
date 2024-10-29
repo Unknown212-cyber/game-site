@@ -60,7 +60,7 @@ class Ship {
         // Apply friction
         this.speed *= this.friction;
 
-        // Update position
+        // Update position based on cockpit direction
         this.x += Math.cos(this.angle) * this.speed;
         this.y += Math.sin(this.angle) * this.speed;
 
