@@ -79,7 +79,7 @@ class Bullet {
         this.angle = angle;
         this.speed = 8;
         this.radius = 3;
-        this.lifeTime = 100;
+        this.lifeTime = 100; // Bullet lifetime
         this.age = 0;
     }
 
@@ -96,7 +96,7 @@ class Bullet {
         this.age++;
 
         // Remove bullet if it goes off-screen or exceeds lifetime
-        return this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height || this.age > this.lifeTime;
+        return (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height || this.age > this.lifeTime);
     }
 }
 
