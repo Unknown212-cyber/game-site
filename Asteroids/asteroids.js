@@ -105,30 +105,16 @@ class Asteroid {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 30 + 20;
-        this.speedX = Math.random() * 3 - 1.5;
-        this.speedY = Math.random() * 3 - 1.5;
-        this.vertices = Math.floor(Math.random() * 5 + 5);
-        this.offsets = Array.from({ length: this.vertices }, () => Math.random() * this.size * 0.4 - this.size * 0.2);
+        this.size = Math.random() * 30 + 20; // Size between 20 and 50
+        this.speedX = Math.random() * 3 - 1.5; // Random speed in X direction
+        this.speedY = Math.random() * 3 - 1.5; // Random speed in Y direction
     }
 
     draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
         ctx.fillStyle = "gray";
-
-        // Draw asteroid with irregular vertices
         ctx.beginPath();
-        for (let i = 0; i < this.vertices; i++) {
-            const angle = (Math.PI * 2 / this.vertices) * i;
-            const x = Math.cos(angle) * (this.size + this.offsets[i]);
-            const y = Math.sin(angle) * (this.size + this.offsets[i]);
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
     }
 
     update() {
@@ -194,6 +180,7 @@ function updateGame() {
                 bullets.splice(bulletIndex, 1); // Remove bullet
                 asteroids.splice(asteroidIndex, 1); // Remove asteroid
                 score += 10;
+                // Add a new asteroid when one is destroyed
                 asteroids.push(new Asteroid(Math.random() * canvas.width, Math.random() * canvas.height));
             }
         });
@@ -204,8 +191,8 @@ function updateGame() {
         const dx = ship.x - asteroid.x;
         const dy = ship.y - asteroid.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < ship.size + asteroid.size) { // Check using ship size
-            gameOver = true;
+        if (distance < ship.width / 2 + asteroid.size) {
+            gameOver = true; // End the game
         }
     });
 
@@ -220,16 +207,14 @@ function updateScore() {
 
 // Player controls
 document.addEventListener("keydown", (event) => {
-    keyState[event.code] = true;
+    keyState[event.code] = true; // Set key state
     if (event.code === "Space") {
-        const bulletX = ship.x + Math.cos(ship.angle) * ship.size;
-        const bulletY = ship.y + Math.sin(ship.angle) * ship.size;
-        bullets.push(new Bullet(bulletX, bulletY, ship.angle));
+        bullets.push(new Bullet(ship.x, ship.y, ship.angle)); // Shoot bullet
     }
 });
 
 document.addEventListener("keyup", (event) => {
-    keyState[event.code] = false;
+    keyState[event.code] = false; // Reset key state
 });
 
 // Reset game button
