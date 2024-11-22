@@ -16,25 +16,23 @@ class Ship {
         this.y = canvas.height / 2;
         this.angle = 0;
         this.speed = 0;
-        this.size = 30; // Triangle ship size
+        this.width = 30;
+        this.height = 30;
         this.maxSpeed = 5;
-        this.friction = 0.98;
+        this.friction = 0.98; // Friction to slow down the ship
     }
 
     draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
-
-        // Draw triangle ship
         ctx.fillStyle = "white";
         ctx.beginPath();
-        ctx.moveTo(0, -this.size); // Tip of the triangle
-        ctx.lineTo(-this.size / 2, this.size / 2); // Left base
-        ctx.lineTo(this.size / 2, this.size / 2); // Right base
+        ctx.moveTo(0, -this.height / 2);
+        ctx.lineTo(-this.width / 2, this.height / 2);
+        ctx.lineTo(this.width / 2, this.height / 2);
         ctx.closePath();
         ctx.fill();
-
         ctx.restore();
     }
 
@@ -52,7 +50,7 @@ class Ship {
         // Apply friction
         this.speed *= this.friction;
 
-        // Update position based on angle
+        // Update position
         this.x += Math.cos(this.angle) * this.speed;
         this.y += Math.sin(this.angle) * this.speed;
 
@@ -65,7 +63,7 @@ class Ship {
 
     thrust() {
         this.speed += 0.1;
-        if (this.speed > this.maxSpeed) this.speed = this.maxSpeed;
+        if (this.speed > this.maxSpeed) this.speed = this.maxSpeed; // Max speed
     }
 
     rotate(direction) {
